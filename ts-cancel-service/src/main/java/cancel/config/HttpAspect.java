@@ -85,7 +85,7 @@ public class HttpAspect {
     }
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
-    public void doAfterReturningWeb(Object ret) throws Throwable {
+    public void doAfterReturningWeb(Object ret) {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
 
         String traceInfo = "[ParentSpanId:" + parentSpanId.get() + "]" +

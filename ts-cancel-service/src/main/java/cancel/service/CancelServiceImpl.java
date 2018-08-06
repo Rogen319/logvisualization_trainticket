@@ -27,7 +27,7 @@ public class CancelServiceImpl implements CancelService{
     MockLog mockLog;
 
     @Override
-    public CancelOrderResult cancelOrder(CancelOrderInfo info,String loginToken,String loginId, HttpHeaders headers) throws Exception{
+    public CancelOrderResult cancelOrder(CancelOrderInfo info,String loginToken,String loginId, HttpHeaders headers) throws Exception {
         GetOrderByIdInfo getFromOrderInfo = new GetOrderByIdInfo();
         getFromOrderInfo.setOrderId(info.getOrderId());
         GetOrderResult orderResult = getOrderByIdFromOrder(getFromOrderInfo, headers);
@@ -90,7 +90,7 @@ public class CancelServiceImpl implements CancelService{
                     finalResult.setMessage(changeOrderResult.getMessage());
                     mockLog.printLog("[Cancel Order Service][Cancel Order] Fail.Reason:" + changeOrderResult.getMessage());
 //                    return finalResult;
-                    throw new RuntimeException("Cancel But Token Wrong");
+                    throw new Exception("Cancel But Token Wrong");
                 }
 
             }else{
@@ -216,7 +216,7 @@ public class CancelServiceImpl implements CancelService{
                         finalResult.setMessage(changeOrderResult.getMessage());
                         mockLog.printLog("[Cancel Order Service][Cancel Order] Fail.Reason:" + changeOrderResult.getMessage());
 //                        return finalResult;
-                        throw new RuntimeException("Cancel But Token Wrong");
+                        throw new Exception("Cancel But Token Wrong");
                     }
                 }else{
                     CancelOrderResult result = new CancelOrderResult();
