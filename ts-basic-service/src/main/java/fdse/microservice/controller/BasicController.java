@@ -20,6 +20,11 @@ public class BasicController {
 
     @RequestMapping(value="/basic/queryForTravel", method= RequestMethod.POST)
     public ResultForTravel queryForTravel(@RequestBody QueryForTravel info, @RequestHeader HttpHeaders headers){
+        try{
+            Thread.sleep(12000);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return service.queryForTravel(info, headers);
     }
 

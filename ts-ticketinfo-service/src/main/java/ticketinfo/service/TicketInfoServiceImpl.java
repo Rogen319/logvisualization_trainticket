@@ -7,9 +7,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ticketinfo.async.AsyncTask;
 import ticketinfo.domain.QueryForStationId;
 import ticketinfo.domain.QueryForTravel;
 import ticketinfo.domain.ResultForTravel;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Chenjie Xu on 2017/6/6.
@@ -20,18 +23,28 @@ public class TicketInfoServiceImpl implements TicketInfoService{
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private AsyncTask asyncTask;
+
     @Override
     public ResultForTravel queryForTravel(QueryForTravel info,HttpHeaders headers){
-        HttpEntity requestEntity = new HttpEntity(info,headers);
-        ResponseEntity<ResultForTravel> re = restTemplate.exchange(
-                "http://ts-basic-service:15680/basic/queryForTravel",
-                HttpMethod.POST,
-                requestEntity,
-                ResultForTravel.class);
-        ResultForTravel result = re.getBody();
-//        ResultForTravel result = restTemplate.postForObject(
-//                "http://ts-basic-service:15680/basic/queryForTravel", info, ResultForTravel.class);
-        return result;
+//        HttpEntity requestEntity = new HttpEntity(info,headers);
+//        ResponseEntity<ResultForTravel> re = restTemplate.exchange(
+//                "http://ts-basic-service:15680/basic/queryForTravel",
+//                HttpMethod.POST,
+//                requestEntity,
+//                ResultForTravel.class);
+//        ResultForTravel result = re.getBody();
+////        ResultForTravel result = restTemplate.postForObject(
+////                "http://ts-basic-service:15680/basic/queryForTravel", info, ResultForTravel.class);
+//        return result;
+
+        try{
+            return asyncTask.queryForTravel(info, headers);
+        }catch(Exception e){
+            //e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
