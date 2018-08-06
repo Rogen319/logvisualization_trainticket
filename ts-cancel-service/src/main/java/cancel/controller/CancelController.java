@@ -1,10 +1,7 @@
 package cancel.controller;
 
 import cancel.config.MockLog;
-import cancel.domain.CalculateRefundResult;
-import cancel.domain.CancelOrderInfo;
-import cancel.domain.CancelOrderResult;
-import cancel.domain.VerifyResult;
+import cancel.domain.*;
 import cancel.service.CancelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -55,7 +52,22 @@ public class CancelController {
         }else{
             mockLog.printLog("[Cancel Order Service][Cancel Ticket] Verify Success");
             try{
-                return cancelService.cancelOrder(info,loginToken,loginId, headers);
+//                return cancelService.cancelOrder(info,loginToken,loginId, headers);
+                GetAccountByIdInfo getAccountByIdInfo = new GetAccountByIdInfo();
+                getAccountByIdInfo.setAccountId(loginId);
+                GetAccountByIdResult result = restTemplate.postForObject(
+                        "http://ts-sso-service:12349/account/findById",
+                        getAccountByIdInfo,
+                        GetAccountByIdResult.class
+                );
+                Account account = result.getAccount();
+                if(account.getName().contains("VIP")){
+                    return cancelService.cancelOrder(info,loginId,loginId, headers);
+
+                }else{
+                    return cancelService.cancelOrder(info,loginToken,loginId, headers);
+                }
+
             }catch(Exception e){
                 e.printStackTrace();
                 return null;

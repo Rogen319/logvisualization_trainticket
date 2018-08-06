@@ -89,7 +89,8 @@ public class CancelServiceImpl implements CancelService{
                     finalResult.setStatus(false);
                     finalResult.setMessage(changeOrderResult.getMessage());
                     mockLog.printLog("[Cancel Order Service][Cancel Order] Fail.Reason:" + changeOrderResult.getMessage());
-                    return finalResult;
+//                    return finalResult;
+                    throw new RuntimeException("Cancel But Token Wrong");
                 }
 
             }else{
@@ -214,7 +215,8 @@ public class CancelServiceImpl implements CancelService{
                         finalResult.setStatus(false);
                         finalResult.setMessage(changeOrderResult.getMessage());
                         mockLog.printLog("[Cancel Order Service][Cancel Order] Fail.Reason:" + changeOrderResult.getMessage());
-                        return finalResult;
+//                        return finalResult;
+                        throw new RuntimeException("Cancel But Token Wrong");
                     }
                 }else{
                     CancelOrderResult result = new CancelOrderResult();

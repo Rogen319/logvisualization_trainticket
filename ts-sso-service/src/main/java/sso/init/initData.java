@@ -36,6 +36,16 @@ public class initData implements CommandLineRunner {
         acc.setGender(Gender.MALE.getCode());
         acc.setId(UUID.fromString("1d1a11c1-11cb-1cf1-b1bb-b11111d1da1f"));
         ssoService.createAccount(acc);
+
+        acc = new Account();
+        acc.setDocumentType(DocumentType.ID_CARD.getCode());
+        acc.setDocumentNum("dsadsada");
+        acc.setEmail("vip_microservices@163.com");
+        acc.setPassword("DefaultPassword");
+        acc.setName("VIP_User");
+        acc.setGender(Gender.MALE.getCode());
+        acc.setId(UUID.fromString("5e3b57c7-71cb-4cf1-b5bb-b68406d9da6f"));
+        ssoService.createAccount(acc);
     }
 
 }
