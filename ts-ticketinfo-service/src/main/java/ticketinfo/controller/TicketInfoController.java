@@ -19,7 +19,7 @@ public class TicketInfoController {
     TicketInfoService service;
 
     @RequestMapping(value="/ticketinfo/queryForTravel", method = RequestMethod.POST)
-    public ResultForTravel queryForTravel(@RequestBody QueryForTravel info,@RequestHeader HttpHeaders headers){
+    public ResultForTravel queryForTravel(@RequestBody QueryForTravel info,@RequestHeader HttpHeaders headers) throws Exception{
         return service.queryForTravel(info,headers);
     }
 

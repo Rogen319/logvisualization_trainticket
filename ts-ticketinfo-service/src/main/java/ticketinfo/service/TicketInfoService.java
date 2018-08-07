@@ -9,6 +9,6 @@ import ticketinfo.domain.ResultForTravel;
  * Created by Chenjie Xu on 2017/6/6.
  */
 public interface TicketInfoService {
-    ResultForTravel queryForTravel(QueryForTravel info,HttpHeaders headers);
+    ResultForTravel queryForTravel(QueryForTravel info,HttpHeaders headers) throws Exception;
     String queryForStationId(QueryForStationId info,HttpHeaders headers);
 }

@@ -27,7 +27,7 @@ public class TicketInfoServiceImpl implements TicketInfoService{
     private AsyncTask asyncTask;
 
     @Override
-    public ResultForTravel queryForTravel(QueryForTravel info,HttpHeaders headers){
+    public ResultForTravel queryForTravel(QueryForTravel info,HttpHeaders headers)throws Exception{
 //        HttpEntity requestEntity = new HttpEntity(info,headers);
 //        ResponseEntity<ResultForTravel> re = restTemplate.exchange(
 //                "http://ts-basic-service:15680/basic/queryForTravel",
@@ -39,12 +39,12 @@ public class TicketInfoServiceImpl implements TicketInfoService{
 ////                "http://ts-basic-service:15680/basic/queryForTravel", info, ResultForTravel.class);
 //        return result;
 
-        try{
+//        try{
             return asyncTask.queryForTravel(info, headers);
-        }catch(Exception e){
-            //e.printStackTrace();
-            return null;
-        }
+//        }catch(Exception e){
+//            //e.printStackTrace();
+//            throw e;
+//        }
     }
 
     @Override
