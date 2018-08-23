@@ -139,6 +139,12 @@
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
                                     <button type="button" class="am-btn am-btn-default am-btn-success" ng-click="addNewOrder()"><span class="am-icon-plus"></span> Add</button>
+
+                                    <input type="text" id="order_search_by_station_from" ng-model="station_from" class="am-modal-prompt-input" value="shanghai">
+                                    <input type="text" id="order_search_by_station_to" ng-model="station_to" class="am-modal-prompt-input" value="nanjing">
+                                    <button type="button" id="order_search_by_station_search_lock" ng-click="stationSuspend()" class="am-btn am-btn-default am-btn-success">Search And Lock</button>
+                                    <button type="button" id="order_search_by_station_unlock" ng-click="cancelSuspend()" class="am-btn am-btn-default am-btn-success">Unlock</button>
+
                                     <!--<button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> Save</button>-->
                                     <!--<button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> Check</button>-->
                                     <!--<button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> Delete</button>-->

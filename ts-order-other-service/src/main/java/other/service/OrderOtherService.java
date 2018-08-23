@@ -35,11 +35,22 @@ public interface OrderOtherService {
 
     DeleteOrderResult deleteOrder(DeleteOrderInfo info, HttpHeaders headers);
 
-    void initOrder(Order order, HttpHeaders headers);
+    void initOrder(Order order);
 
     LeftTicketInfo getSoldTickets(SeatRequest seatRequest, HttpHeaders headers);
 
     AddOrderResult addNewOrder(Order order, HttpHeaders headers);
 
     UpdateOrderResult updateOrder(Order order, HttpHeaders headers);
+
+    //add
+    QueryOrderResult getAllOrdersAsync();
+
+    boolean cancelSuspend(String fromId,String toId);
+
+    boolean suspend(String fromId,String toId);
+
+    SuspendArea getSuspendArea();
+
+    String getStatusDescription();
 }

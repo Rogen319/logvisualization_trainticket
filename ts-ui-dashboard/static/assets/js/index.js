@@ -222,4 +222,47 @@ app.controller('indexCtrl', function ($scope, $http,$window,loadDataService) {
             }
         });
     }
+
+
+    //add
+    $scope.stationSuspend = function(){
+        var fromStationId = $scope.station_from;
+        var toStationId = $scope.station_to;
+
+        $http({
+            method: "get",
+            url: "/adminOrder/suspendOrder/" + fromStationId + "/" + toStationId,
+            withCredentials: true,
+            async:false,
+        }).success(function () {
+            alert("Lock Success");
+        }).error(function () {
+            alert("Lock Fail");
+        });
+
+        $http({
+            method: "get",
+            url: "/orderOther/getOrdersByFromAndTo/" + fromStationId + "/" + toStationId,
+            withCredentials: true
+        }).success(function (result) {
+            //alert("Return：" + result.length);
+        }).error(function () {
+            //alert("Fail");
+        });
+
+    }
+
+    $scope.cancelSuspend = function(){
+        var fromStationId = $scope.station_from;
+        var toStationId = $scope.station_to;
+        $http({
+            method: "get",
+            url: "/adminOrder/cancelSuspendOrder/" + fromStationId + "/" + toStationId,
+            withCredentials: true
+        }).success(function () {
+            alert("Unlock Success");
+        }).error(function () {
+            alert("Unlock Fail");
+        });
+    }
 });

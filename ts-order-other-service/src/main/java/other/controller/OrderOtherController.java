@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import other.config.MockLog;
 import other.domain.*;
+import other.repository.OrderOtherRepository;
 import other.service.OrderOtherService;
 import java.util.ArrayList;
 
@@ -176,4 +177,55 @@ public class OrderOtherController {
 
         return tokenResult;
     }
+
+    ////////////////////////// add //////////////////////////////////
+    @Autowired
+    private OrderOtherRepository orderOtherRepository;
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(path = "/orderOther/asyncViewAllOrder", method = RequestMethod.GET)
+    public QueryOrderResult asyncViewAllOrder(){
+        return orderService.getAllOrdersAsync();
+    }
+
+    @RequestMapping(value = "/orderOther/suspend/{fromId}/{toId}", method = RequestMethod.GET)
+    public Boolean setSuspendStation(@PathVariable String fromId, @PathVariable String toId){
+        return new Boolean(orderService.suspend(fromId,toId));
+    }
+
+    @RequestMapping(value = "/orderOther/cancelSuspend/{fromId}/{toId}", method = RequestMethod.GET)
+    public Boolean setCancelSuspendStation(@PathVariable String fromId, @PathVariable String toId){
+        return new Boolean(orderService.cancelSuspend(fromId,toId));
+    }
+
+    @RequestMapping(value = "/orderOther/getSuspendStationArea", method = RequestMethod.GET)
+    public SuspendArea getSuspendStationArea(){
+        System.out.println("[Order Other Service] Get Suspend Station Area.");
+        return orderService.getSuspendArea();
+    }
+
+
+    @RequestMapping(value = "/orderOther/getOrdersByFromAndTo/{fromId}/{toId}", method = RequestMethod.GET)
+    public ArrayList<Order> getOrdersByFromIdAndToId(@PathVariable String fromId, @PathVariable String toId){
+
+        System.out.println("[Order Service][Get] From:" + fromId + " To:" + toId);
+
+        ArrayList<Order> ordersFrom = orderOtherRepository.findByFromId(fromId);
+        ArrayList<Order> ordersTo = orderOtherRepository.findByToId(toId);
+
+        ArrayList<Order> orders = new ArrayList<>();
+        orders.addAll(ordersFrom);
+        orders.addAll(ordersTo);
+
+        System.out.println("[Order Service][Get] From:" + ordersFrom.size() + " To:" + ordersTo.size());
+
+        return orders;
+    }
+
+    @RequestMapping(path = "/getStatusDescription", method = RequestMethod.GET)
+    public String getStatusDescription() {
+        return orderService.getStatusDescription();
+    }
+
+
 }
