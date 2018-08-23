@@ -14,17 +14,6 @@ server:
 spring:
   application:
     name: ts-notification-service
-  mail:
-    host: smtp.163.com
-    username: fdse_microservices@163.com
-    password: fdse1234
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
 
 #  main:
 #    banner-mode: off
