@@ -122,10 +122,10 @@ public class CancelServiceImpl implements CancelService {
                     /*********************** Fault Reproduction - Error Process Seq *************************/
                     //1.return money
                     String money = calculateRefund(order);
-                    Future<Boolean> taskDrawBackMoney = asyncTask.drawBackMoneyForOrderCancel(money, loginId, order.getId().toString(), loginToken);
+                    Future<Boolean> taskDrawBackMoney = asyncTask.drawBackMoneyForOrderCancel(money, loginId, order.getId().toString(), loginToken, headers);
 
                     //2.change status to [canceled]
-                    Future<ChangeOrderResult> taskCancelOrder = asyncTask.updateOtherOrderStatusToCancel(changeOrderInfo);
+                    Future<ChangeOrderResult> taskCancelOrder = asyncTask.updateOtherOrderStatusToCancel(changeOrderInfo, headers);
 
                     ChangeOrderResult changeOrderResult;
                     boolean drawBackMoneyStatus;
