@@ -232,8 +232,14 @@ app.controller('indexCtrl', function ($scope, $http,$window,loadDataService) {
         $http({
             method: "get",
             url: "/adminOrder/suspendOrder/" + fromStationId + "/" + toStationId,
-            withCredentials: true,
+            // withCredentials: true,
             async:false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("request-type", "SuspendOrder");
+            },
+            xhrFields: {
+                withCredentials: true
+            }
         }).success(function () {
             alert("Lock Success");
         }).error(function () {
@@ -244,6 +250,12 @@ app.controller('indexCtrl', function ($scope, $http,$window,loadDataService) {
             method: "get",
             url: "/orderOther/getOrdersByFromAndTo/" + fromStationId + "/" + toStationId,
             withCredentials: true
+            // beforeSend: function (xhr) {
+            //     xhr.setRequestHeader("request-type", "GetOrdersByFromAndTo");
+            // },
+            // xhrFields: {
+            //     withCredentials: true
+            // }
         }).success(function (result) {
             //alert("Return：" + result.length);
         }).error(function () {
@@ -259,6 +271,12 @@ app.controller('indexCtrl', function ($scope, $http,$window,loadDataService) {
             method: "get",
             url: "/adminOrder/cancelSuspendOrder/" + fromStationId + "/" + toStationId,
             withCredentials: true
+            // beforeSend: function (xhr) {
+            //     xhr.setRequestHeader("request-type", "CancelSuspendOrder");
+            // },
+            // xhrFields: {
+            //     withCredentials: true
+            // }
         }).success(function () {
             alert("Unlock Success");
         }).error(function () {
