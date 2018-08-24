@@ -28,6 +28,26 @@ $("#refresh_my_order_list_button").click(function(){
     queryMyOrder();
 });
 
+//add
+$("#refresh_all_order_list_async_button").click(function(){
+    $.ajax({
+        type: "get",
+        url: "/orderOther/asyncViewAllOrder",
+        contentType: "application/json",
+        dataType: "json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(result){
+            //alert("  ");
+        },
+        complete: function(){
+
+        }
+    });
+});
+///////////////////////////////////////////////////////////////
+
 function queryMyOrder(){
     var myOrdersQueryInfo = new Object();
     myOrdersQueryInfo.enableStateQuery = false;

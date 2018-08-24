@@ -629,12 +629,12 @@ public class OrderOtherServiceImpl implements OrderOtherService{
     }
 
     @Override
-    public QueryOrderResult getAllOrdersAsync(){
+    public QueryOrderResult getAllOrdersAsync(HttpHeaders headers){
 
         try{
             int size = new Random().nextInt(7);
             for(int i = 0; i < size;i++){
-                asyncTask.viewAllOrderAsync();
+                asyncTask.viewAllOrderAsync(headers);
             }
             //QueryOrderResult result = resultFuture.get();
             ArrayList<Order> orders = orderOtherRepository.findAll();
@@ -676,7 +676,7 @@ public class OrderOtherServiceImpl implements OrderOtherService{
 
 
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 5; i++) {
             HttpEntity entity2 = new HttpEntity(null, headers);
             ResponseEntity<SuspendArea> tempSuspendAreaResult= restTemplate.exchange(
                     "http://ts-order-other-service:12032/orderOther/getSuspendStationArea",
@@ -699,12 +699,14 @@ public class OrderOtherServiceImpl implements OrderOtherService{
         String suspendAreaFromId = lastFromId;
         String suspendAreaToId = lastToId;
 
-        if(fromStationId.equals(suspendAreaFromId) || fromStationId.equals(suspendAreaToId)
-                || toStationId.equals(suspendAreaFromId) || toStationId.equals(suspendAreaToId)){
-            return false;
-        }else{
-            return true;
-        }
+        return true;
+
+//        if(fromStationId.equals(suspendAreaFromId) || fromStationId.equals(suspendAreaToId)
+//                || toStationId.equals(suspendAreaFromId) || toStationId.equals(suspendAreaToId)){
+//            return false;
+//        }else{
+//            return true;
+//        }
     }
 
 }

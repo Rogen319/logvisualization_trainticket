@@ -1,6 +1,7 @@
 package other.async;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
@@ -23,8 +24,21 @@ public class AsyncTask {
     @Autowired
     MockLog mockLog;
 
+    ThreadLocal<String> parentSpanId = new ThreadLocal<String>();
+    ThreadLocal<String> requestId = new ThreadLocal<String>();
+    ThreadLocal<String> traceId = new ThreadLocal<String>();
+    ThreadLocal<String> spanId = new ThreadLocal<String>();
+
     @Async("myAsync")
-    public Future<QueryOrderResult> viewAllOrderAsync(){
+    public Future<QueryOrderResult> viewAllOrderAsync(HttpHeaders headers){
+        System.out.println("=====viewAllOrderAsync======");
+        System.out.println(headers.toSingleValueMap());
+
+        parentSpanId.set(headers.toSingleValueMap().get("x-b3-parentspanid"));
+        requestId.set(headers.toSingleValueMap().get("x-request-id"));
+        traceId.set(headers.toSingleValueMap().get("x-b3-traceid"));
+        spanId.set(headers.toSingleValueMap().get("x-b3-spanid"));
+
         count++;
         mockLog.printLog("[Enter View All Order Async] Count:" + count);
         try{

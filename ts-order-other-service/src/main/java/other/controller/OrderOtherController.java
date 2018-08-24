@@ -184,8 +184,8 @@ public class OrderOtherController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(path = "/orderOther/asyncViewAllOrder", method = RequestMethod.GET)
-    public QueryOrderResult asyncViewAllOrder(){
-        return orderService.getAllOrdersAsync();
+    public QueryOrderResult asyncViewAllOrder(@RequestHeader HttpHeaders headers){
+        return orderService.getAllOrdersAsync(headers);
     }
 
     @RequestMapping(value = "/orderOther/suspend/{fromId}/{toId}", method = RequestMethod.GET)
@@ -200,7 +200,7 @@ public class OrderOtherController {
 
     @RequestMapping(value = "/orderOther/getSuspendStationArea", method = RequestMethod.GET)
     public SuspendArea getSuspendStationArea(){
-        System.out.println("[Order Other Service] Get Suspend Station Area.");
+        mockLog.printLog("[Order Other Service] Get Suspend Station Area.");
         return orderService.getSuspendArea();
     }
 
@@ -208,7 +208,7 @@ public class OrderOtherController {
     @RequestMapping(value = "/orderOther/getOrdersByFromAndTo/{fromId}/{toId}", method = RequestMethod.GET)
     public ArrayList<Order> getOrdersByFromIdAndToId(@PathVariable String fromId, @PathVariable String toId){
 
-        System.out.println("[Order Service][Get] From:" + fromId + " To:" + toId);
+        mockLog.printLog("[Order Service][Get] From:" + fromId + " To:" + toId);
 
         ArrayList<Order> ordersFrom = orderOtherRepository.findByFromId(fromId);
         ArrayList<Order> ordersTo = orderOtherRepository.findByToId(toId);
@@ -217,7 +217,7 @@ public class OrderOtherController {
         orders.addAll(ordersFrom);
         orders.addAll(ordersTo);
 
-        System.out.println("[Order Service][Get] From:" + ordersFrom.size() + " To:" + ordersTo.size());
+        mockLog.printLog("[Order Service][Get] From:" + ordersFrom.size() + " To:" + ordersTo.size());
 
         return orders;
     }
