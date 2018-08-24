@@ -45,7 +45,7 @@ public class CancelController {
             result.setMessage("No Login Token");
             return result;
         }
-        VerifyResult verifyResult = verifySsoLogin(loginToken);
+        VerifyResult verifyResult = verifySsoLogin(loginToken, headers);
         if(verifyResult.isStatus() == false){
             mockLog.printLog("[Cancel Order Service][Cancel Order] Do not login.");
             CancelOrderResult result = new CancelOrderResult();
@@ -64,11 +64,12 @@ public class CancelController {
         }
     }
 
-    private VerifyResult verifySsoLogin(String loginToken){
+    private VerifyResult verifySsoLogin(String loginToken, HttpHeaders headers){
         mockLog.printLog("[Cancel Order Service][Verify Login] Verifying....");
+
         VerifyResult tokenResult = restTemplate.getForObject(
                 "http://ts-sso-service:12349/verifyLoginToken/" + loginToken,
-                VerifyResult.class);
+                VerifyResult.class, headers);
         return tokenResult;
     }
 
