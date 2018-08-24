@@ -1,15 +1,26 @@
 # logvisualization_trainticket
 
 #F12
-#Fault Reproduce:
-1. Admin Login docker ps -a
-2. Lock shanghai and nanjing
-3. Login 
-4. Cancel ticket. (Open chrome and see the network console)
-5. Sometimes you will receive nothing.
-6. You will see the log like exception.PNG.
-7. Find out why.
 
-#Tips
-1. The info in ts-order-other-service/getStatusDescription may be helpful. Of course may be not.
-2. You may need the Zipkin Span Log in OrderOtherApplication to help you. Or may be not.
+setup system:
+
+1.  * kubectl create -f <(istioctl kube-inject -f ts-deployment-part1.yml)
+    * kubectl create -f <(istioctl kube-inject -f ts-deployment-part2.yml)
+    * kubectl create -f <(istioctl kube-inject -f ts-deployment-part3.yml)
+    * istioctl create -f trainticket-gateway.yaml
+2. Log in and make sure that there is at least one order that fits the following:
+   This order must be:  1. The train number is start with Z or K
+                        2. The order status is PAID
+
+
+fault reproduce manually step:
+
+1. Click [Admin Management] and login with admin account
+2. Enter "shanghai" and "nanjing" into the two input box at the upper right part of page
+3. Click [Search And Lock]
+4. Return to the index page and login
+5. Click [Flow Two - Ticket Cancel & Ticket Change]
+6. Click [All Orders Async]
+7. Click [Refresh Orders]
+8. Select the order mentioned above and click [Cancel Order]
+9. You will get Error alert and see the exception logs on the server console.

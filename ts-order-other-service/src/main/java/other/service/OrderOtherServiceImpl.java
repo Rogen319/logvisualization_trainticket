@@ -676,7 +676,7 @@ public class OrderOtherServiceImpl implements OrderOtherService{
 
 
 
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 1; i++) {
             HttpEntity entity2 = new HttpEntity(null, headers);
             ResponseEntity<SuspendArea> tempSuspendAreaResult= restTemplate.exchange(
                     "http://ts-order-other-service:12032/orderOther/getSuspendStationArea",
