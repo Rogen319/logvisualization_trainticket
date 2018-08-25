@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: ts-ui-dashboard
-        image: lwh319/istio-zipkin-f12-ts-ui-dashboard:1.0
+        image: lwh319/istio-zipkin-f-instance-ts-ui-dashboard:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

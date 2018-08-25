@@ -193,21 +193,58 @@ public class OrderOtherServiceImpl implements OrderOtherService{
 //        System.out.println("[锁定区域] " + fromId + " || " + toId);
 //        System.out.println("[正在修改] " + order.getFrom() + " || " + order.getTo());
 
-        if(checkSuspendOrder == false) {
-            try{
-//                System.out.println("[抛出错误]");
-                throw new RuntimeException("[Fail] The order is suspending by admin." +
-                        "This is not a error. Please wait for a while.");
-            }catch(Exception e){
-                e.printStackTrace();
-            }finally{
-                ChangeOrderResult cor = new ChangeOrderResult();
-                cor.setStatus(false);
-                cor.setMessage("[Error] The order is suspending by admin.");
-                return cor;
-//                Order oldOrder = findOrderById(order.getId());
+        ChangeOrderResult cor = new ChangeOrderResult();
+        cor.setStatus(false);
+        cor.setMessage("[Error] The order is suspending by admin.");
+        return cor;
+
+
+//        if(checkSuspendOrder == false) {
+//            try{
+////                System.out.println("[抛出错误]");
+//                throw new RuntimeException("[Fail] The order is suspending by admin." +
+//                        "This is not a error. Please wait for a while.");
+//            }catch(Exception e){
+//                e.printStackTrace();
+//            }finally{
 //                ChangeOrderResult cor = new ChangeOrderResult();
-//
+//                cor.setStatus(false);
+//                cor.setMessage("[Error] The order is suspending by admin.");
+//                return cor;
+////                Order oldOrder = findOrderById(order.getId());
+////                ChangeOrderResult cor = new ChangeOrderResult();
+////
+////                oldOrder.setAccountId(order.getAccountId());
+////                oldOrder.setBoughtDate(order.getBoughtDate());
+////                oldOrder.setTravelDate(order.getTravelDate());
+////                oldOrder.setTravelTime(order.getTravelTime());
+////                oldOrder.setCoachNumber(order.getCoachNumber());
+////                oldOrder.setSeatClass(order.getSeatClass());
+////                oldOrder.setSeatNumber(order.getSeatNumber());
+////                oldOrder.setFrom(order.getFrom());
+////                oldOrder.setTo(order.getTo());
+////                oldOrder.setStatus(order.getStatus());
+////                oldOrder.setTrainNumber(order.getTrainNumber());
+////                oldOrder.setPrice(order.getPrice());
+////                oldOrder.setContactsName(order.getContactsName());
+////                oldOrder.setContactsDocumentNumber(order.getContactsDocumentNumber());
+////                oldOrder.setDocumentType(order.getDocumentType());
+////                orderOtherRepository.save(oldOrder);
+////                System.out.println("[Order Other Service] Success.");
+////                cor.setOrder(oldOrder);
+////                cor.setStatus(true);
+////                cor.setMessage("Success");
+////                return cor;
+//            }
+//        }else {
+//            Order oldOrder = findOrderById(order.getId(),headers);
+//            ChangeOrderResult cor = new ChangeOrderResult();
+//            if(oldOrder == null){
+//                mockLog.printLog("[Order Other Service][Modify Order] Fail.Order not found.");
+//                cor.setStatus(false);
+//                cor.setMessage("Order Not Found");
+//                cor.setOrder(null);
+//            }else{
 //                oldOrder.setAccountId(order.getAccountId());
 //                oldOrder.setBoughtDate(order.getBoughtDate());
 //                oldOrder.setTravelDate(order.getTravelDate());
@@ -224,44 +261,13 @@ public class OrderOtherServiceImpl implements OrderOtherService{
 //                oldOrder.setContactsDocumentNumber(order.getContactsDocumentNumber());
 //                oldOrder.setDocumentType(order.getDocumentType());
 //                orderOtherRepository.save(oldOrder);
-//                System.out.println("[Order Other Service] Success.");
+//                mockLog.printLog("[Order Other Service] Success.");
 //                cor.setOrder(oldOrder);
 //                cor.setStatus(true);
 //                cor.setMessage("Success");
-//                return cor;
-            }
-        }else {
-            Order oldOrder = findOrderById(order.getId(),headers);
-            ChangeOrderResult cor = new ChangeOrderResult();
-            if(oldOrder == null){
-                mockLog.printLog("[Order Other Service][Modify Order] Fail.Order not found.");
-                cor.setStatus(false);
-                cor.setMessage("Order Not Found");
-                cor.setOrder(null);
-            }else{
-                oldOrder.setAccountId(order.getAccountId());
-                oldOrder.setBoughtDate(order.getBoughtDate());
-                oldOrder.setTravelDate(order.getTravelDate());
-                oldOrder.setTravelTime(order.getTravelTime());
-                oldOrder.setCoachNumber(order.getCoachNumber());
-                oldOrder.setSeatClass(order.getSeatClass());
-                oldOrder.setSeatNumber(order.getSeatNumber());
-                oldOrder.setFrom(order.getFrom());
-                oldOrder.setTo(order.getTo());
-                oldOrder.setStatus(order.getStatus());
-                oldOrder.setTrainNumber(order.getTrainNumber());
-                oldOrder.setPrice(order.getPrice());
-                oldOrder.setContactsName(order.getContactsName());
-                oldOrder.setContactsDocumentNumber(order.getContactsDocumentNumber());
-                oldOrder.setDocumentType(order.getDocumentType());
-                orderOtherRepository.save(oldOrder);
-                mockLog.printLog("[Order Other Service] Success.");
-                cor.setOrder(oldOrder);
-                cor.setStatus(true);
-                cor.setMessage("Success");
-            }
-            return cor;
-        }
+//            }
+//            return cor;
+//        }
     }
 
 //    @Override
@@ -655,58 +661,82 @@ public class OrderOtherServiceImpl implements OrderOtherService{
     }
 
     private boolean checkSuspendArea(String fromStationId, String toStationId, HttpHeaders headers) {
-
-        String lastFromId = "";
-        String lastToId = "";
-
         HttpEntity entity = new HttpEntity(null, headers);
         ResponseEntity<SuspendArea> suspendAreaResult= restTemplate.exchange(
-                "http://ts-order-other-service:12032/orderOther/getSuspendStationArea",
+                "http://ts-security-service:11188/security/getSuspendStationArea",
                 HttpMethod.GET,
                 entity,
                 SuspendArea.class);
         SuspendArea suspendArea = suspendAreaResult.getBody();
-
-//        SuspendArea suspendArea = restTemplate.getForObject(
-//                "http://ts-order-other-service:12032/orderOther/getSuspendStationArea"
-//                ,SuspendArea.class);
-
-        lastFromId = suspendArea.getSuspendFromArea();
-        lastToId = suspendArea.getSuspendToArea();
-
-
-
-        for(int i = 0; i < 1; i++) {
-            HttpEntity entity2 = new HttpEntity(null, headers);
-            ResponseEntity<SuspendArea> tempSuspendAreaResult= restTemplate.exchange(
-                    "http://ts-order-other-service:12032/orderOther/getSuspendStationArea",
-                    HttpMethod.GET,
-                    entity2,
-                    SuspendArea.class);
-            SuspendArea tempSuspendArea = tempSuspendAreaResult.getBody();
-
-//            SuspendArea tempSuspendArea = restTemplate.getForObject(
-//                    "http://ts-order-other-service:12032/orderOther/getSuspendStationArea"
-//                    ,SuspendArea.class);
-
-            if(!(lastFromId.equals(tempSuspendArea.getSuspendFromArea()) && lastToId.equals(tempSuspendArea.getSuspendToArea()))){
-                throw new RuntimeException("[Error] State Inconsistent.");
-            }else{
-                mockLog.printLog("[Compare] State Same");
-            }
+        mockLog.printLog("[Order other service] getSuspendAreaResult: from" + suspendArea.getSuspendFromArea() +
+                            "to " + suspendArea.getSuspendToArea());
+        if("None".equals(suspendArea.getSuspendFromArea())  || "None".equals(suspendArea.getSuspendToArea())){
+            return false;
+        } else {
+            throw new RuntimeException("[Error] State Inconsistent.");
         }
 
-        String suspendAreaFromId = lastFromId;
-        String suspendAreaToId = lastToId;
 
-        return true;
 
-//        if(fromStationId.equals(suspendAreaFromId) || fromStationId.equals(suspendAreaToId)
-//                || toStationId.equals(suspendAreaFromId) || toStationId.equals(suspendAreaToId)){
-//            return false;
-//        }else{
+//        if(fromStationId.equals(fromId) || fromStationId.equals(toId)
+//                || toStationId.equals(fromId) || toStationId.equals(toId)){
 //            return true;
+//        }else{
+//            throw new RuntimeException("[Error] State Inconsistent.");
 //        }
+
+
+//        String lastFromId = "";
+//        String lastToId = "";
+//
+//        HttpEntity entity = new HttpEntity(null, headers);
+//        ResponseEntity<SuspendArea> suspendAreaResult= restTemplate.exchange(
+//                "http://ts-order-other-service:12032/orderOther/getSuspendStationArea",
+//                HttpMethod.GET,
+//                entity,
+//                SuspendArea.class);
+//        SuspendArea suspendArea = suspendAreaResult.getBody();
+//
+////        SuspendArea suspendArea = restTemplate.getForObject(
+////                "http://ts-order-other-service:12032/orderOther/getSuspendStationArea"
+////                ,SuspendArea.class);
+//
+//        lastFromId = suspendArea.getSuspendFromArea();
+//        lastToId = suspendArea.getSuspendToArea();
+//
+//
+//
+//        for(int i = 0; i < 1; i++) {
+//            HttpEntity entity2 = new HttpEntity(null, headers);
+//            ResponseEntity<SuspendArea> tempSuspendAreaResult= restTemplate.exchange(
+//                    "http://ts-order-other-service:12032/orderOther/getSuspendStationArea",
+//                    HttpMethod.GET,
+//                    entity2,
+//                    SuspendArea.class);
+//            SuspendArea tempSuspendArea = tempSuspendAreaResult.getBody();
+//
+////            SuspendArea tempSuspendArea = restTemplate.getForObject(
+////                    "http://ts-order-other-service:12032/orderOther/getSuspendStationArea"
+////                    ,SuspendArea.class);
+//
+//            if(!(lastFromId.equals(tempSuspendArea.getSuspendFromArea()) && lastToId.equals(tempSuspendArea.getSuspendToArea()))){
+//                throw new RuntimeException("[Error] State Inconsistent.");
+//            }else{
+//                mockLog.printLog("[Compare] State Same");
+//            }
+//        }
+//
+//        String suspendAreaFromId = lastFromId;
+//        String suspendAreaToId = lastToId;
+//
+//        return true;
+//
+////        if(fromStationId.equals(suspendAreaFromId) || fromStationId.equals(suspendAreaToId)
+////                || toStationId.equals(suspendAreaFromId) || toStationId.equals(suspendAreaToId)){
+////            return false;
+////        }else{
+////            return true;
+////        }
     }
 
 }

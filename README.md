@@ -20,7 +20,6 @@ fault reproduce manually step:
 3. Click [Search And Lock]
 4. Return to the index page and login
 5. Click [Flow Two - Ticket Cancel & Ticket Change]
-6. Click [All Orders Async]
 7. Click [Refresh Orders]
 8. Select the order mentioned above and click [Cancel Order]
 9. You will get Error alert and see the exception logs on the server console.

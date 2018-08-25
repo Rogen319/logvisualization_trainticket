@@ -218,12 +218,17 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
         HttpEntity entity = new HttpEntity(null, headers);
         ResponseEntity<Boolean> result= restTemplate.exchange(
-                "http://ts-order-other-service:12032/orderOther/suspend/" + fromStationId + "/" + toStationId,
+                "http://ts-security-service:11188/security/suspend/" + fromStationId + "/" + toStationId,
                 HttpMethod.GET,
                 entity,
                 Boolean.class);
+//        ResponseEntity<Boolean> result= restTemplate.exchange(
+//                "http://ts-order-other-service:12032/orderOther/suspend/" + fromStationId + "/" + toStationId,
+//                HttpMethod.GET,
+//                entity,
+//                Boolean.class);
 
-        Boolean boo = result.getBody();
+//        Boolean boo = result.getBody();
 
 //        restTemplate.getForObject("http://ts-order-other-service:12032/orderOther/suspend/" + fromStationId + "/" + toStationId, Boolean.class);
 

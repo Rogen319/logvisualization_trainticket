@@ -17,6 +17,9 @@ public class SecurityController {
     @Autowired
     MockLog mockLog;
 
+    public String fromId = "None";
+    public String toId = "None";
+
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String home(){
         return "welcome to [Security Service]";
@@ -56,4 +59,20 @@ public class SecurityController {
         mockLog.printLog("[Security Service][Check Security] Check Account Id:" + info.getAccountId());
         return securityService.check(info,headers);
     }
+
+    //add
+    @RequestMapping(value = "/security/suspend/{fromId}/{toId}", method = RequestMethod.GET)
+    public Boolean setSuspendStation(@PathVariable String fromId, @PathVariable String toId){
+        this.fromId = fromId;
+        this.toId = toId;
+        mockLog.printLog("[Security Service] Set Suspend Station Area: [fromId:"+fromId+"] [toId: "+toId+"]");
+        return true;
+    }
+
+    @RequestMapping(value = "/security/getSuspendStationArea", method = RequestMethod.GET)
+    public SuspendArea getSuspendStationArea(){
+        mockLog.printLog("[Security Service] Get Suspend Station Area.");
+        return new SuspendArea(fromId,toId);
+    }
+
 }
