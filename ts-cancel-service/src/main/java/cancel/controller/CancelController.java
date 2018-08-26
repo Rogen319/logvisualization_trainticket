@@ -32,7 +32,7 @@ public class CancelController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(path = "/cancelOrder", method = RequestMethod.POST)
-    public CancelOrderResult cancelTicket(@RequestBody CancelOrderInfo info, @CookieValue String loginToken, @CookieValue String loginId, @RequestHeader HttpHeaders headers){
+    public CancelOrderResult cancelTicket(@RequestBody CancelOrderInfo info, @CookieValue String loginToken, @CookieValue String loginId, @RequestHeader HttpHeaders headers) throws Exception{
         mockLog.printLog("[Cancel Order Service][Cancel Ticket] info:" + info.getOrderId());
         if(loginToken == null ){
             loginToken = "admin";
@@ -54,12 +54,12 @@ public class CancelController {
             return result;
         }else{
             mockLog.printLog("[Cancel Order Service][Cancel Ticket] Verify Success");
-            try{
+//            try{
                 return cancelService.cancelOrder(info,loginToken,loginId, headers);
-            }catch(Exception e){
-                e.printStackTrace();
-                return null;
-            }
+//            }catch(Exception e){
+//                e.printStackTrace();
+//                return null;
+//            }
 
         }
     }
