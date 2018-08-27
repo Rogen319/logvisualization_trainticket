@@ -97,7 +97,9 @@ public class BasicServiceImpl implements BasicService{
 
         int distance = route.getDistances().get(indexEnd) - route.getDistances().get(indexStart);
 
-        double priceForEconomyClass = distance * priceConfig.getBasicPriceRate();//需要price Rate和距离（起始站）
+        //fault replicate
+        double priceForEconomyClass = distance ;
+//        double priceForEconomyClass = distance * priceConfig.getBasicPriceRate();//需要price Rate和距离（起始站）
         double priceForConfortClass= distance * priceConfig.getFirstClassPriceRate();
 
         HashMap<String,String> prices = new HashMap<String,String>();
