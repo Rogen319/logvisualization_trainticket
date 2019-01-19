@@ -153,9 +153,6 @@ public class ExecuteServiceImpl implements ExecuteService{
                 requestEntity,
                 ModifyOrderStatusResult.class);
         ModifyOrderStatusResult cor = re.getBody();
-//        ModifyOrderStatusResult cor = restTemplate.postForObject(
-//                "http://ts-order-service:12031/order/modifyOrderStatus"
-//                ,info,ModifyOrderStatusResult.class);
         return cor;
     }
 
@@ -163,14 +160,11 @@ public class ExecuteServiceImpl implements ExecuteService{
         mockLog.printLog("[Execute Service][Execute Order] Executing....");
         HttpEntity requestEntity = new HttpEntity(info, headers);
         ResponseEntity<ModifyOrderStatusResult> re = restTemplate.exchange(
-                "http://ts-order-other-service:12032/order/modifyOrderStatus",
+                "http://ts-order-other-service:12032/orderOther/modifyOrderStatus",
                 HttpMethod.POST,
                 requestEntity,
                 ModifyOrderStatusResult.class);
         ModifyOrderStatusResult cor = re.getBody();
-//        ModifyOrderStatusResult cor = restTemplate.postForObject(
-//                "http://ts-order-other-service:12032/order/modifyOrderStatus"
-//                ,info,ModifyOrderStatusResult.class);
         return cor;
     }
 
@@ -183,9 +177,6 @@ public class ExecuteServiceImpl implements ExecuteService{
                 requestEntity,
                 GetOrderResult.class);
         GetOrderResult cor = re.getBody();
-//        GetOrderResult cor = restTemplate.postForObject(
-//                "http://ts-order-service:12031/order/getById/"
-//                ,info,GetOrderResult.class);
         return cor;
     }
 
@@ -198,9 +189,6 @@ public class ExecuteServiceImpl implements ExecuteService{
                 requestEntity,
                 GetOrderResult.class);
         GetOrderResult cor = re.getBody();
-//        GetOrderResult cor = restTemplate.postForObject(
-//                "http://ts-order-other-service:12032/orderOther/getById/"
-//                ,info,GetOrderResult.class);
         return cor;
     }
 
